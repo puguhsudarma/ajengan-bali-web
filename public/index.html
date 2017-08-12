@@ -22,13 +22,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
   <link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- ANGULAR JS -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
 
   <!-- DEPENDENCIES -->
   <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
   <!-- Firebase -->
@@ -38,15 +39,16 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAm0O3jIU-dV6_4l4EZUjROId7LDugy9BI"></script>
   <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
   <script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
-  <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.js"></script>
 
+  <script src="js/functionsJquery.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
 </head>
 
-<body ng-app="ajegliApp">
+<body ng-app="ajegliApp" style="background: url('images/login_wallpaper.jpg'); background-attachment: fixed;">
   <ui-view></ui-view>
 </body>
 
