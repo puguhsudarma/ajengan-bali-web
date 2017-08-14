@@ -1,3 +1,5 @@
-$(document).on('click', '.button-collapse', function () {
-  $(this).sideNav();
-});
+(function ($) {
+  $(document).on('click', '.button-collapse', function () {
+    $(this).sideNav();
+  });
+})(jQuery);

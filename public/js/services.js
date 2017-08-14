@@ -1,5 +1,58 @@
 angular.module('ajegliApp.services', [])
+  .service('LoginService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {
+    this.login = function (email, password) {
+      return $firebaseAuth().$signInWithEmailAndPassword(email, password);
+    };
 
+    this.dataLogin = function () {
+      const auth = $firebaseAuth().$getAuth();
+      const ref = firebase.database().ref(`users/${auth.uid}`);
+      return $firebaseObject(ref).$loaded();
+    };
+
+    this.logout = function () {
+      localStorage.clear();
+      return $firebaseAuth().signOut();
+    };
+  }])
+
+  .service('SignUpService', ['$firebaseAuth', function ($firebaseAuth) {
+    this.checkUniqueUsername = function (username) {
+      return firebase
+        .database()
+        .ref('users')
+        .orderByChild('username')
+        .equalTo(username)
+        .once('value');
+    };
+
+    this.checkUniqueEmail = function (email) {
+      return firebase
+        .database()
+        .ref('users')
+        .orderByChild('email')
+        .equalTo(email)
+        .once('value');
+    };
+
+    this.signUp = function ({ nama, alamat, telp, username, email, password }) {
+      const data = { nama, alamat, telp, username, email, level: '1' };
+      // sign up proccess
+      return $firebaseAuth()
+        .$createUserWithEmailAndPassword(email, password)
+        .then(user => Promise.resolve(user.uid))
+        .then(uid => {
+          return firebase
+            .database()
+            .ref(`users/${uid}`)
+            .set(data);
+        })
+        .catch(err => err);
+    }
+  }])
+
+
+  // -----------------------------
   .service('DashService', function ($http, Backand) {
     var service = this;
 
@@ -57,35 +110,6 @@ angular.module('ajegliApp.services', [])
         }
       });
     }
-  })
-
-  .service('SignUpService', function ($http, Backand) {
-    var service = this;
-
-    service.verUsername = function (username) {
-      return $http({
-        method: 'GET',
-        url: Backand.getApiUrl() + '/1/query/data/pRegCheckUsername',
-        params: {
-          parameters: {
-            username: username
-          }
-        }
-      });
-    }
-
-    service.verEmail = function (email) {
-      return $http({
-        method: 'GET',
-        url: Backand.getApiUrl() + '/1/query/data/pRegChekEmail',
-        params: {
-          parameters: {
-            email: email
-          }
-        }
-      });
-    }
-
   })
 
   .service('TicketsService', function ($http, Backand) {
@@ -236,36 +260,6 @@ angular.module('ajegliApp.services', [])
       });
     }
 
-  })
-
-  .service('LoginService', function ($http, Backand) {
-    var service = this;
-
-    service.login = function (email, password) {
-      return $http({
-        method: 'GET',
-        url: Backand.getApiUrl() + '/1/query/data/penyelenggaraLogin',
-        params: {
-          parameters: {
-            email: email,
-            password: password
-          }
-        }
-      });
-    }
-
-    service.adminLogin = function (username, password) {
-      return $http({
-        method: 'GET',
-        url: Backand.getApiUrl() + '/1/query/data/adminLogin',
-        params: {
-          parameters: {
-            username: username,
-            password: password
-          }
-        }
-      });
-    }
   })
 
   .service('FinanceService', function ($http, Backand) {

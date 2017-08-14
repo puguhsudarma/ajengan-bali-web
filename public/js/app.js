@@ -14,84 +14,104 @@ angular.module('ajegliApp', [
   'datatables',
   'firebase',
   'ui.router',
-  'ajegliApp.controllers',
+  'ajegliApp.rootControllers',
+  'ajegliApp.superAdminControllers',
   'ajegliApp.services'
 ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    // guest (Root)
     $stateProvider
-      .state({
-        url: '/',
-        controller: 'RootCtrl as root'
+      .state('root', {
+        url: '',
+        resolve: {
+          currentAuth: ['$firebaseAuth', '$state', function ($firebaseAuth, $state) {
+            $firebaseAuth()
+              .$waitForSignIn()
+              .then(data => {
+                if (data !== null) {
+                  if (localStorage.getItem('level') === '0') {
+                    return $state.go('superadmin-dashboard');
+                  }
+                  return $state.go('adminwarung-dashboard');
+                }
+                return $state.go('login');
+              })
+              .catch(err => $state.go('login'));
+          }],
+        },
+        cache: true,
       })
-
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl as login'
-      })
-
-      .state('dashboard', {
-        url: '/dashboard',
+        controller: 'LoginCtrl as login',
+        resolve: {
+          currentAuth: ['$firebaseAuth', '$state', function ($firebaseAuth, $state) {
+            $firebaseAuth()
+              .$waitForSignIn()
+              .then(auth => {
+                if (auth !== null) {
+                  if (localStorage.getItem('level') === '0') {
+                    return $state.go('superadmin-dashboard');
+                  }
+                  return $state.go('adminwarung-dashboard');
+                }
+              })
+              .catch(err => console.log(err));
+          }],
+        },
         cache: true,
-        templateUrl: 'templates/dashboard.html',
-        controller: 'DashCtrl as dash'
       })
-
-      .state('tickets', {
-        url: '/tickets',
-        cache: true,
-        templateUrl: 'templates/tickets.html',
-        controller: 'TicketsCtrl as tiket'
-      })
-
-      .state('chats', {
-        url: '/chats',
-        cache: true,
-        templateUrl: 'templates/chats.html',
-        controller: 'ChatsCtrl as chats'
-      })
-
-      .state('admin-dashboard', {
-        url: '/admin-dashboard',
-        cache: true,
-        templateUrl: 'templates/admin-dashboard.html',
-        controller: 'AdminDashCtrl as dash'
-      })
-
-      .state('admin-login', {
-        url: '/admin-login',
-        cache: true,
-        templateUrl: 'templates/admin-login.html',
-        controller: 'AdminLoginCtrl as login'
-      })
-
       .state('signup', {
         url: '/signup',
         templateUrl: 'templates/signup.html',
-        controller: 'SignupCtrl as su'
+        controller: 'SignUpCtrl as signup',
+        resolve: {
+          currentAuth: ['$firebaseAuth', '$state', function ($firebaseAuth, $state) {
+            $firebaseAuth()
+              .$waitForSignIn()
+              .then(auth => {
+                if (auth !== null) {
+                  if (localStorage.getItem('level') === '0') {
+                    return $state.go('superadmin-dashboard');
+                  }
+                  return $state.go('adminwarung-dashboard');
+                }
+              })
+              .catch(err => console.log(err));
+          }],
+        },
+        cache: true,
+      })
+      .state('lost', {
+        url: '/iamlost',
+        templateUrl: 'templates/404.html',
+        cache: true,
       })
 
-      .state('media', {
-        url: '/media',
-        cache: true,
-        templateUrl: 'templates/media.html',
-        controller: 'MediaCtrl as media'
+      // super admin
+      .state({
+        name: 'superadmin-dashboard',
+        url: '/super-admin-dashboard',
+        templateUrl: 'templates/superadmin/dashboard.html',
+        // controller: 'DashCtrl as dash',
+        cache: false,
       })
 
-      .state('calendar-events', {
-        url: '/calendar-events',
-        cache: true,
-        templateUrl: 'templates/calendar-events.html',
-        controller: 'CalCtrl as cal'
+      // admin warung
+      .state('adminwarung-dashboard', {
+        url: '/admin-warung-dashboard',
+        templateUrl: 'templates/adminwarung/dashboard.html',
+        // controller: 'DashCtrl as dash',
+        cache: false,
       })
-
-      .state('finance', {
-        url: '/finance',
-        cache: true,
-        templateUrl: 'templates/finance.html',
-        controller: 'FinanceCtrl as finance'
+      .state('adminwarung-warung', {
+        url: '/admin-warung-warung',
+        templateUrl: 'templates/adminwarung/warung.html',
+        // controller: 'DashCtrl as dash',
+        cache: false,
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/dashboard');
-  });
+    $urlRouterProvider.otherwise('/iamlost');
+  }]);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="ajegliApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="ajegliApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="ajegliApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html lang="en" class="no-js">
 <!--<![endif]-->
@@ -10,17 +10,27 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Ajengan Bali App</title>
-  <meta name="description" content="">
+  <meta name="description" content="website app ajengan bali, maintenance data warung dan makanan">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Chrome Mobile Color Bar Meta  -->
+  <meta name="theme-color" content="#0288D1">
+
+  <!-- Favion -->
+  <!-- For IE 9 and below. ICO should be 32x32 pixels in size -->
+  <!--[if IE]><link rel="shortcut icon" href="images/favicon/favicon-32x32.png"><![endif]-->
+  <!-- Touch Icons - iOS and Android 2.1+ 180x180 pixels in size. -->
+  <link rel="apple-touch-icon-precomposed" href="images/favicon/favicon-32x32.png">
+  <!-- Firefox, Chrome, Safari, IE 11+ and Opera. 196x196 pixels in size. -->
+  <link rel="icon" href="images/favicon/favicon-32x32.png">
 
   <!-- STYLE CSS -->
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="modules/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="modules/html5-boilerplate/dist/css/main.css">
+  <!-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Materialize CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-  <link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet">
+  <link href="modules/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 
@@ -37,8 +47,8 @@
   <!-- AngularFire -->
   <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAm0O3jIU-dV6_4l4EZUjROId7LDugy9BI"></script>
-  <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-  <script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+  <script src="modules/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="modules/angular-datatables/dist/angular-datatables.min.js"></script>
   <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.8/sweetalert2.min.js"></script>
 
@@ -48,7 +58,7 @@
   <script src="js/services.js"></script>
 </head>
 
-<body ng-app="ajegliApp" style="background: url('images/login_wallpaper.jpg'); background-attachment: fixed;">
+<body ng-app="ajegliApp">
   <ui-view></ui-view>
 </body>
 

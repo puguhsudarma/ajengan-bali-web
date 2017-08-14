@@ -1,93 +1,70 @@
-
-    <div class="accentbody">
-
-    </div>
-    <nav class="blue darken-2">
-        <div class="nav-wrapper container">
-          <a id="logo-container" href="#" class="brand-logo"><span class="text-bold">Tiket</span><span class="text-medium">Tari</span><span class="text-bold"> Extranet</span></a>
-        </div>
-    </nav>
-
-
-    <div class="row">
-              <!-- Form with validation -->
-              <div class="col s12 m8 l6">
-                <div class="card-panel card-register-margin"><br><br>
-                  <h4 class="text-bold blue-text darken-3 center-align">Tiket<span class="text-medium">Tari</span> </h4>
-                  <h5 class="text-light blue-text darken-3 center-align">Extranet Register </h5>
-                  <br><br>
-                  <div class="row">
-                    <form id="form-signup" class="col s12" >
-                      <div class="row ">
-                        <div class="input-field col s6">
-                          <i class="mdi-social-group prefix"></i>
-                          <input placeholder="" id="fname" ng-model="fname" name="fname" type="text">
-                          <label data-error="first name required" id="lfname" for="fname" >First Name</label>
-                        </div>
-                        <div class="input-field col s6">
-                          <i class="mdi-social-group prefix"></i>
-                          <input placeholder="" id="lname" ng-model="lname" name="lname" type="text">
-                          <label data-error="last name required" id="llname" for="lname" >Last Name</label>
-                        </div>
-                      </div>
-                      <div class="row ">
-                        <div class="input-field col s12">
-                          <i class="mdi-social-person prefix"></i>
-                          <input placeholder="" id="username" ng-change="verUsername()" ng-onfocusout="verUsername()" ng-model="username"  name="username" type="text">
-                          <label id="lusername" data-error="required at least 5 characters" for="username" >Username</label>
-                        </div>
-                      </div>
-                      <div class="row ">
-                        <div class="input-field col s12">
-                          <i class="mdi-action-verified-user prefix"></i>
-                          <input placeholder="" id="oname" ng-model="oname" name="oname" type="text">
-                          <label id="loname" data-error="can't be empty" for="oname" >Organization Name</label>
-                        </div>
-                      </div>
-                      <div class="row ">
-                        <div class="input-field col s12">
-                          <i class="mdi-communication-email prefix"></i>
-                          <input placeholder="" ng-change="verEmail()" id="email" ng-model="email" name="email" type="email">
-                          <label id="lemail" data-error="please insert a valid email address" for="email">Email</label>
-                        </div>
-                      </div>
-                      <div class="row ">
-                        <div class="input-field col s12">
-                          <i class="mdi-action-lock-outline prefix"></i>
-                          <input placeholder="" ng-change="verPass()" id="password" ng-model="password" name="password" type="password">
-                          <label data-error="required at least 8 characters"for="password" id="lpassword">Password</label>
-                        </div>
-                      </div>
-                      <div class="row ">
-                        <div class="input-field col s12">
-                          <i class="mdi-action-lock prefix"></i>
-                          <input placeholder="" ng-change="verPass()" ng-model="cpassword" id="cpassword" type="password">
-                          <label data-error="password didn't match" for="cpassword" id="lcpassword">Re-type password</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <button  ng-click="signup()" class="btn waves-effect waves-light col s12">Register Now</button>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <p class="margin center medium-small sign-up">Already have an account? <a href="<?php echo base_url('/extranet'); ?>">Login</a></p>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="col s12 m8 l6 fact-signup">
-                <div class="container ">
-                    <h3 class="text-bold white-text center-align ">JOIN THE LARGEST TICKETING COMMUNITY</h3>
-                    <h4 class="text-light white-text center-align">Over 100.000 tickets sold this month</h4>
-                    <h5 class="text-light white-text center-align">Reach more, earn more</h5>
-                </div>
-
-              </div>
-
+<div class="container">
+  <div class="row">
+    <div class="col s12 m12 l8 offset-l2">
+      <br />
+      <div class="card-panel z-depth-3">
+        <h4 class="text-bold center-align light-blue-text text-darken-4">Ajengan <span class="text-medium">Bali</span></h4>
+        <h5 class="text-light center-align light-blue-text text-darken-4">Sign Up</h5>
+        <form>
+          <div class="row ">
+            <div class="input-field col s12">
+              <i class="mdi-social-group prefix"></i>
+              <input placeholder="" id="nama" ng-model="nama" name="nama" type="text" required autofocus>
+              <label data-error="name required" id="labelNama" for="nama">Nama Lengkap</label>
             </div>
+          </div>
+          <div class="row ">
+            <div class="input-field col s12">
+              <i class="mdi-social-group prefix"></i>
+              <input placeholder="" id="alamat" ng-model="alamat" name="alamat" type="text" required>
+              <label data-error="alamat required" id="labelAlamat" for="alamat">Alamat</label>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="input-field col s12">
+              <i class="mdi-social-group prefix"></i>
+              <input placeholder="" id="telp" ng-model="telp" name="telp" type="number">
+              <label data-error="telepon required" id="labelTelp" for="telp">No. Telp</label>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="input-field col s12">
+              <i class="mdi-social-group prefix"></i>
+              <input placeholder="" id="username" ng-change="field.verifyUsername()" ng-model="username" name="username" type="text" required>
+              <label data-error="Username already used." id="labelUsername" for="username">Username</label>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="input-field col s12">
+              <i class="mdi-communication-email prefix"></i>
+              <input placeholder="" id="email" ng-change="field.verifyEmail()" ng-model="email" name="email" type="email">
+              <label data-error="Email already used." id="labelEmail" for="email">Email</label>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="input-field col s6">
+              <i class="mdi-action-lock-outline prefix"></i>
+              <input placeholder="" ng-change="field.verifyPassword()" id="password" ng-model="password" name="password" type="password">
+              <label data-error="Required at least 8 characters." for="password" id="labelPassword">Password</label>
+            </div>
+            <div class="input-field col s6">
+              <i class="mdi-action-lock prefix"></i>
+              <input placeholder="" ng-change="field.verifyCPassword()" ng-model="cPassword" id="cPassword" type="password">
+              <label data-error="Password didn't match" for="cPassword" id="labelCPassword">Re-type password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button ng-click="signUp()" class="btn waves-effect waves-light col s12">Register Now</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <p class="margin center medium-small sign-up">Already have an account? <a ui-sref="login">Login</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

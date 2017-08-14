@@ -1,1 +1,0 @@
-!function($){$(function(){$(".tiketID").click(function(){$("#modal-tickets").openModal()}),$(".button-collapse").sideNav(),$(".parallax").parallax(),$(".modal-trigger").leanModal({dismissible:!1,opacity:.5,in_duration:300,out_duration:200,starting_top:"4%",ending_top:"10%"})})}(jQuery);
