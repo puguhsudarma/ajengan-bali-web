@@ -1,5 +1,5 @@
 // root module control
-angular.module('ajegliApp.rootControllers', [])
+app
   .controller('LoginCtrl', ['$scope', '$state', 'LoginService', function ($scope, $state, LoginService) {
     const e = angular.element(document.querySelector('#username'));
     const p = angular.element(document.querySelector('#password'));
@@ -7,9 +7,12 @@ angular.module('ajegliApp.rootControllers', [])
     const pl = angular.element(document.querySelector('#password-label'));
 
     $scope.tryLogin = function () {
-      LoginService.login($scope.email, $scope.password)
+      LoginService
+        .login($scope.email, $scope.password)
         .then(() => LoginService.dataLogin())
         .then(data => {
+          localStorage.setItem('uid', data.$id);
+          localStorage.setItem('email', data.email);
           localStorage.setItem('nama', data.nama);
           localStorage.setItem('level', data.level);
           if (data.level === 0) {
@@ -158,415 +161,48 @@ angular.module('ajegliApp.rootControllers', [])
   }]);
 
 // Super admin module control
-angular.module('ajegliApp.superAdminControllers', [])
-  .controller('DashCtrl', function ($scope, $state, $http, $filter, DashService, Backand) {
-
-    if (localStorage.getItem('auth') == 'authorized') {
-
-      const baseUrl = '/1/objects/';
-      const baseActionUrl = baseUrl + 'action/';
-      const objectName = 'tb_user';
-      const filesActionName = 'imageUpload';
-
-      const now = $filter('date')(new Date(), 'yyyy-MM-dd');
-      const yest = $filter('date')(getYesterdayDate(new Date(), 1), 'yyyy-MM-dd');
-      $scope.labels = [];
-      $scope.data = [];
-      $scope.lchart = true;
-      const dateArray = [];
-
-      for (i = 6; i > -1; i--) {
-        dateArray.push($filter('date')(getYesterdayDate(new Date(), i), 'yyyy-MM-dd'));
-        $scope.labels.push($filter('date')(getYesterdayDate(new Date(), i), 'EEE, d MMM yyyy'));
-      }
-      getChartData(6);
-
-      const data = [];
-
-      function getChartData(day) {
-        if (day == -1) {
-          $scope.data = data;
-          $scope.lchart = false;
-          return;
-        }
-        DashService.getSalesDate(localStorage.getItem('idUser'), $filter('date')(getYesterdayDate(new Date(), day), 'yyyy-MM-dd')).then(function (result) {
-          data.push(result.data[0].sold);
-          console.log(result.data[0].sold);
-          getChartData(day - 1);
-        });
-      }
-
-      console.log(dateArray);
-      function getPDetail(id) {
-        DashService.getPDetail(id).then(function (result) {
-          $scope.PDetail = result.data[0];
-          console.log(result.data);
-        });
-      }
-      function imageChanged(fileInput) {
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        const now = $filter('date')(new Date(), 'yyyy-MM-ddHH:mm:ss');
-        const username = localStorage.getItem('idUser') + now;
-
-        reader.onload = function (e) {
-          upload(username, e.currentTarget.result).then(function (res) {
-            localStorage.setItem('uploadUrl', username);
-            DashService.updateUserImage(localStorage.getItem('idUser'), res.data.url).then(function (result) {
-              getPDetail(localStorage.getItem('idUser'));
-              $scope.uploading = false;
-              ;
-
-            });
-          }, function (err) {
-            alert(err.data);
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-
-
-      function initUpload() {
-        const fileInput = document.getElementById('file');
-
-        fileInput.addEventListener('change', function (e) {
-          console.log(localStorage.getItem('uploadUrl'))
-          //deleteFile(localStorage.getItem('uploadUrl'));
-          $scope.uploading = true;
-          imageChanged(fileInput);
-        });
-      }
-
-      $scope.initCtrl = function () {
-        initUpload();
-        console.log('upload initiated');
-      }
-
-
-      function upload(filename, filedata) {
-        return $http({
-          method: 'POST',
-          url: Backand.getApiUrl() + baseActionUrl + objectName,
-          params: {
-            'name': filesActionName
-          },
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          // you need to provide the file name and the file data
-          data: {
-            'filename': filename,
-            'filedata': filedata.substr(filedata.indexOf(',') + 1, filedata.length) //need to remove the file prefix type
-          }
-        });
-      }
-
-      function getSalesDate() {
-
-        DashService.getSalesDate(localStorage.getItem('idUser'), now).then(function (result) {
-          $scope.today = result.data[0];
-          const tsale = result.data[0].sold;
-          console.log($scope.today);
-          DashService.getSalesDate(localStorage.getItem('idUser'), yest).then(function (result) {
-            $scope.yest = result.data;
-            const ysale = result.data[0].sold;
-            console.log(result.data);
-
-            $scope.progress = (tsale - ysale);
-
-            console.log(ysale);
-            console.log(tsale);
-
-          });
-        });
-
-        DashService.getSaleByType(localStorage.getItem('idUser'), now, 'admin').then(function (result) {
-          $scope.admin = result.data[0].sold;
-          const atsale = result.data[0].sold;
-          DashService.getSaleByType(localStorage.getItem('idUser'), yest, 'admin').then(function (result) {
-
-            const aysale = result.data[0].sold;
-            $scope.aprogress = (atsale - aysale);
-            console.log($scope.apogress);
-
-          });
-        });
-
-        DashService.getSaleByType(localStorage.getItem('idUser'), now, 'tikettari').then(function (result) {
-          $scope.tt = result.data[0].sold;
-          const ttsale = result.data[0].sold;
-          DashService.getSaleByType(localStorage.getItem('idUser'), yest, 'tikettari').then(function (result) {
-
-            const tysale = result.data[0].sold;
-            $scope.tprogress = (ttsale - tysale);
-            console.log($scope.tpogress);
-
-          });
-        });
-
-
-        console.log(now);
-        console.log(yest);
-      }
-
-      getSalesDate();
-
-      function getYesterdayDate(date, dayMin) {
-        const resultDate = new Date(date.getTime());
-
-        resultDate.setDate(date.getDate() - dayMin);
-
-        return resultDate;
-      }
-
-      $scope.series = ['This Week Sales'];
-
-      $scope.onClick = function (points, evt) {
-        console.log(points, evt);
-      };
-      $scope.colors = ['#FFFFFF'];
-      $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-      $scope.options = {
-        scales: {
-          yAxes: [
-            {
-              id: 'y-axis-1',
-              type: 'linear',
-              display: true,
-              position: 'left'
-            }
-          ]
-        }
-      };
-
-      $scope.logout = function () {
-        $state.go('login');
-        localStorage.setItem('idUser', null);
-        localStorage.setItem('auth', 'unauthorized');
-      };
-      $scope.openDropdown = function () {
-        $(function () {
-          $('#dropdown').dropdown('open');
-        });
-      };
-
-      $scope.openModal = function () {
-        $(function () {
-          $('#profile').openModal();
-        });
-      };
-      getPDetail(localStorage.getItem('idUser'));
-    }
-    else {
-      $state.go('login', { reload: true });
-    }
+app
+  .controller('DashCtrl', function () {
   });
 
 // Admin warung module control
-angular.module('ajegliApp.superAdminControllers', [])
-  .controller('DashCtrl', function ($scope, $state, $http, $filter, DashService, Backand) {
+app
+  .controller('WarungDashCtrl', function () {
+  })
+  .controller('WarungWarungCtrl', ['$scope', 'WarungService', '$mdDialog', function ($scope, WarungService, $mdDialog) {
+    $scope.state = {
+      title: 'Data Warung',
+      subtitle: 'Tabel data warung',
+      act: 'read',
+      data: null,
+    };
 
-    if (localStorage.getItem('auth') == 'authorized') {
+    $scope.action = {
+      add: function () {
+        $scope.state.act = 'add';
+        $scope.state.subtitle = 'Tambah data warung';
+      },
+      update: function () {
+        $scope.state.act = 'update';
+        $scope.state.subtitle = 'Update data warung';
+      },
+      back: function () {
+        $scope.state.act = 'read';
+        $scope.state.subtitle = 'Tabel data warung';
+      },
+    };
 
-      const baseUrl = '/1/objects/';
-      const baseActionUrl = baseUrl + 'action/';
-      const objectName = 'tb_user';
-      const filesActionName = 'imageUpload';
-
-      const now = $filter('date')(new Date(), 'yyyy-MM-dd');
-      const yest = $filter('date')(getYesterdayDate(new Date(), 1), 'yyyy-MM-dd');
-      $scope.labels = [];
-      $scope.data = [];
-      $scope.lchart = true;
-      const dateArray = [];
-
-      for (i = 6; i > -1; i--) {
-        dateArray.push($filter('date')(getYesterdayDate(new Date(), i), 'yyyy-MM-dd'));
-        $scope.labels.push($filter('date')(getYesterdayDate(new Date(), i), 'EEE, d MMM yyyy'));
-      }
-      getChartData(6);
-
-      const data = [];
-
-      function getChartData(day) {
-        if (day == -1) {
-          $scope.data = data;
-          $scope.lchart = false;
-          return;
-        }
-        DashService.getSalesDate(localStorage.getItem('idUser'), $filter('date')(getYesterdayDate(new Date(), day), 'yyyy-MM-dd')).then(function (result) {
-          data.push(result.data[0].sold);
-          console.log(result.data[0].sold);
-          getChartData(day - 1);
-        });
-      }
-
-      console.log(dateArray);
-      function getPDetail(id) {
-        DashService.getPDetail(id).then(function (result) {
-          $scope.PDetail = result.data[0];
-          console.log(result.data);
-        });
-      }
-      function imageChanged(fileInput) {
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        const now = $filter('date')(new Date(), 'yyyy-MM-ddHH:mm:ss');
-        const username = localStorage.getItem('idUser') + now;
-
-        reader.onload = function (e) {
-          upload(username, e.currentTarget.result).then(function (res) {
-            localStorage.setItem('uploadUrl', username);
-            DashService.updateUserImage(localStorage.getItem('idUser'), res.data.url).then(function (result) {
-              getPDetail(localStorage.getItem('idUser'));
-              $scope.uploading = false;
-              ;
-
-            });
-          }, function (err) {
-            alert(err.data);
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-
-
-      function initUpload() {
-        const fileInput = document.getElementById('file');
-
-        fileInput.addEventListener('change', function (e) {
-          console.log(localStorage.getItem('uploadUrl'))
-          //deleteFile(localStorage.getItem('uploadUrl'));
-          $scope.uploading = true;
-          imageChanged(fileInput);
-        });
-      }
-
-      $scope.initCtrl = function () {
-        initUpload();
-        console.log('upload initiated');
-      }
-
-
-      function upload(filename, filedata) {
-        return $http({
-          method: 'POST',
-          url: Backand.getApiUrl() + baseActionUrl + objectName,
-          params: {
-            'name': filesActionName
-          },
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          // you need to provide the file name and the file data
-          data: {
-            'filename': filename,
-            'filedata': filedata.substr(filedata.indexOf(',') + 1, filedata.length) //need to remove the file prefix type
-          }
-        });
-      }
-
-      function getSalesDate() {
-
-        DashService.getSalesDate(localStorage.getItem('idUser'), now).then(function (result) {
-          $scope.today = result.data[0];
-          const tsale = result.data[0].sold;
-          console.log($scope.today);
-          DashService.getSalesDate(localStorage.getItem('idUser'), yest).then(function (result) {
-            $scope.yest = result.data;
-            const ysale = result.data[0].sold;
-            console.log(result.data);
-
-            $scope.progress = (tsale - ysale);
-
-            console.log(ysale);
-            console.log(tsale);
-
-          });
-        });
-
-        DashService.getSaleByType(localStorage.getItem('idUser'), now, 'admin').then(function (result) {
-          $scope.admin = result.data[0].sold;
-          const atsale = result.data[0].sold;
-          DashService.getSaleByType(localStorage.getItem('idUser'), yest, 'admin').then(function (result) {
-
-            const aysale = result.data[0].sold;
-            $scope.aprogress = (atsale - aysale);
-            console.log($scope.apogress);
-
-          });
-        });
-
-        DashService.getSaleByType(localStorage.getItem('idUser'), now, 'tikettari').then(function (result) {
-          $scope.tt = result.data[0].sold;
-          const ttsale = result.data[0].sold;
-          DashService.getSaleByType(localStorage.getItem('idUser'), yest, 'tikettari').then(function (result) {
-
-            const tysale = result.data[0].sold;
-            $scope.tprogress = (ttsale - tysale);
-            console.log($scope.tpogress);
-
-          });
-        });
-
-
-        console.log(now);
-        console.log(yest);
-      }
-
-      getSalesDate();
-
-      function getYesterdayDate(date, dayMin) {
-        const resultDate = new Date(date.getTime());
-
-        resultDate.setDate(date.getDate() - dayMin);
-
-        return resultDate;
-      }
-
-      $scope.series = ['This Week Sales'];
-
-      $scope.onClick = function (points, evt) {
-        console.log(points, evt);
-      };
-      $scope.colors = ['#FFFFFF'];
-      $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-      $scope.options = {
-        scales: {
-          yAxes: [
-            {
-              id: 'y-axis-1',
-              type: 'linear',
-              display: true,
-              position: 'left'
-            }
-          ]
-        }
-      };
-
-      $scope.logout = function () {
-        $state.go('login');
-        localStorage.setItem('idUser', null);
-        localStorage.setItem('auth', 'unauthorized');
-      };
-      $scope.openDropdown = function () {
-        $(function () {
-          $('#dropdown').dropdown('open');
-        });
-      };
-
-      $scope.openModal = function () {
-        $(function () {
-          $('#profile').openModal();
-        });
-      };
-      getPDetail(localStorage.getItem('idUser'));
-    }
-    else {
-      $state.go('login', { reload: true });
-    }
-  });
+    WarungService
+      .getWarungWhereOwner()
+      .then(data => {
+        console.log(data);
+        $scope.state.data = data
+      })
+      .catch(err => $mdDialog.show(
+        $mdDialog.alert({
+          title: 'Attention',
+          textContent: err,
+          ok: 'Close',
+        })
+      ));
+  }]);

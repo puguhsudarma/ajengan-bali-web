@@ -1,0 +1,44 @@
+<div class="card-panel z-depth-3" ng-if="state.act === 'add'">
+  <h5 class="title-card">Tambah Data</h5>
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="" id="first_name" type="text" class="validate">
+          <label for="first_name">Nama</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <select>
+            <option value="" disabled selected>Pilih Kategori</option>
+            <option value="1">Babi Guling</option>
+            <option value="2">Babi Sate</option>
+            <option value="3">Lawar</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="" id="first_name" type="text" class="validate">
+          <label for="first_name">Daerah</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          This is an inline input field:
+          <div class="input-field inline">
+            <input id="email" type="email" class="validate">
+            <label for="email" data-error="wrong" data-success="right">Email</label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

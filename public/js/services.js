@@ -1,4 +1,4 @@
-angular.module('ajegliApp.services', [])
+app
   .service('LoginService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {
     this.login = function (email, password) {
       return $firebaseAuth().$signInWithEmailAndPassword(email, password);
@@ -6,7 +6,7 @@ angular.module('ajegliApp.services', [])
 
     this.dataLogin = function () {
       const auth = $firebaseAuth().$getAuth();
-      const ref = firebase.database().ref(`users/${auth.uid}`);
+      const ref = fb.database().ref(`users/${auth.uid}`);
       return $firebaseObject(ref).$loaded();
     };
 
@@ -48,7 +48,15 @@ angular.module('ajegliApp.services', [])
             .set(data);
         })
         .catch(err => err);
-    }
+    };
+  }])
+
+  .service('WarungService', ['$firebaseArray', '$firebaseAuth', function ($firebaseArray, $firebaseAuth) {
+    this.getWarungWhereOwner = function () {
+      const uid = localStorage.getItem('uid');
+      const ref = fb.database().ref(`warung`).orderByChild('uid').equalTo(uid);
+      return $firebaseArray(ref).$loaded();
+    };
   }])
 
 

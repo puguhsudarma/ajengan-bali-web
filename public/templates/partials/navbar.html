@@ -1,12 +1,8 @@
-<div class="navbar-fixed">
-  <nav class="blue darken-2">
-    <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
-    <div class="nav-wrapper container">
-       <a href="#" class="brand-logo">
-        <span class="text-bold">Ajengan</span>
-        <span class="text-medium"> Bali</span>
-        <span class="text-bold"> App</span>
-      </a> 
-    </div>
-  </nav>
-</div>
+<md-toolbar ng-controller="navController as nav">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" ng-click="openLeftMenu()" aria-label="menu">
+      <md-icon>menu</md-icon>
+    </md-button>
+    <h2 flex md-truncate>Ajengan Bali App</h2>
+  </div>
+</md-toolbar>
