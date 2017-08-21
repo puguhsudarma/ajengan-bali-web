@@ -1,0 +1,58 @@
+<div ng-if="state.act === 'add'">
+  <md-content layout-padding>
+    <form ng-submit="onSubmitAdd(formField)" name="addForm">
+      <md-input-container class="md-block">
+        <label>Nama</label>
+        <input required name="nama" ng-model="formField.nama">
+        <div ng-messages="addForm.nama.$error">
+          <div ng-message="required">Isikan nama.</div>
+        </div>
+      </md-input-container>
+
+      <div layout="row">
+        <md-input-container flex="50">
+          <label>Warung</label>
+          <md-select name="warung" ng-model="formField.warung" required md-no-asterisk="false">
+            <md-option ng-repeat="kat in state.warung" value="{{kat.$id}}">{{kat.nama}}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container flex="50">
+          <label>Kategori</label>
+          <md-select name="kategori" ng-model="formField.kategori" required md-no-asterisk="false">
+            <md-option ng-repeat="kat in state.kategori" value="{{kat.$value}}">{{kat.$value}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <md-input-container class="md-block">
+        <label>Harga</label>
+        <input required name="harga" type="number" ng-model="formField.harga">
+        <div ng-messages="addForm.harga.$error">
+          <div ng-message="required">Isikan harga.</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <lf-ng-md-file-input lf-placeholder="Gambar Warung" lf-filesize="3MB" accept="image/*" lf-files='formField.image' drag preview></lf-ng-md-file-input>
+        <div ng-messages="addForm.image.$error">
+          <div ng-message="filesize">Ukuran file gambar harus kurang dari 3MB.</div>
+          <div ng-message="mimetype">Isikan file gambar.</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Deskripsi</label>
+        <textarea required name="deskripsi" ng-model="formField.deskripsi"></textarea>
+        <div ng-messages="addForm.deskripsi.$error">
+          <div ng-message="required">Isikan deskripsi.</div>
+        </div>
+      </md-input-container>
+
+      <div>
+        <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+      </div>
+      <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
+    </form>
+  </md-content>
+</div>
