@@ -1,39 +1,46 @@
-<md-table-container ng-if="state.act === 'read'">
-  <table md-table md-progress="promise">
-    <thead md-head>
-      <tr md-row>
-        <th md-column md-numeric>No</th>
-        <th md-column>Nama</th>
-        <th md-column>Kategori</th>
-        <th md-column>Daerah</th>
-        <th md-column md-numeric>Latitude</th>
-        <th md-column md-numeric>Longitude</th>
-        <th md-column>Deskripsi</th>
-        <th md-column>Gambar</th>
-        <th md-column>Action</th>
-      </tr>
-    </thead>
-    <tbody md-body>
-      <tr md-row ng-repeat="row in state.data">
-        <td md-cell>{{$index + 1}}</td>
-        <td md-cell>{{row.nama}}</td>
-        <td md-cell>{{row.kategori}}</td>
-        <td md-cell>{{row.daerah}}</td>
-        <td md-cell>{{row.lat}}</td>
-        <td md-cell>{{row.lng}}</td>
-        <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
-        <td md-cell><img src="{{row.picture}}" width="50" /></td>
-        <td md-cell>
-          <md-button class="md-icon-button" aria-label="edit">
-            <md-icon ng-style="{color: '#1565C0'}">edit</md-icon>
-          </md-button>
-        </td>
-        <td md-cell>
-          <md-button class="md-icon-button" aria-label="delete">
-            <md-icon ng-style="{color: '#C62828'}">delete</md-icon>
-          </md-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</md-table-container>
+<div ng-if="state.act === 'read'">
+  <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
+  <md-input-container class="md-block" flex-gt-sm>
+    <label>Search</label>
+    <input ng-model="searchText">
+  </md-input-container>
+  <md-table-container>
+    <table md-table>
+      <thead md-head>
+        <tr md-row>
+          <th md-column md-numeric>No</th>
+          <th md-column>Nama</th>
+          <th md-column>Kategori</th>
+          <th md-column>Daerah</th>
+          <th md-column md-numeric>Latitude</th>
+          <th md-column md-numeric>Longitude</th>
+          <th md-column>Deskripsi</th>
+          <th md-column>Gambar</th>
+          <th md-column colspan="2">Action</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row ng-repeat="row in state.data | filter: searchText">
+          <td md-cell>{{$index + 1}}</td>
+          <td md-cell>{{row.nama}}</td>
+          <td md-cell>{{row.kategori}}</td>
+          <td md-cell>{{row.daerah}}</td>
+          <td md-cell>{{row.lat}}</td>
+          <td md-cell>{{row.lng}}</td>
+          <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
+          <td md-cell><img src="{{row.picture}}" width="50" /></td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="edit(row)" aria-label="edit">
+              <md-icon ng-style="{color: '#1565C0'}">edit</md-icon>
+            </md-button>
+          </td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="delete(row, $event)" aria-label="delete">
+              <md-icon ng-style="{color: '#C62828'}">delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+</div>

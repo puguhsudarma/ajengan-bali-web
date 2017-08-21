@@ -1,70 +1,81 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12 m12 l8 offset-l2">
-      <br />
-      <div class="card-panel z-depth-3">
-        <h4 class="text-bold center-align light-blue-text text-darken-4">Ajengan <span class="text-medium">Bali</span></h4>
-        <h5 class="text-light center-align light-blue-text text-darken-4">Sign Up</h5>
-        <form>
-          <div class="row ">
-            <div class="input-field col s12">
-              <i class="mdi-social-group prefix"></i>
-              <input placeholder="" id="nama" ng-model="nama" name="nama" type="text" required autofocus>
-              <label data-error="name required" id="labelNama" for="nama">Nama Lengkap</label>
+<div layout="row" layout-align="center center">
+  <md-content>
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Ajengan Bali App</span>
+          <span class="md-subhead">Sign Up</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <form ng-submit="signUp(formField)" name="signupForm">
+          <md-input-container class="md-block">
+            <label>Nama Lengkap</label>
+            <input required name="nama" ng-model="formField.nama">
+            <div ng-messages="signupForm.nama.$error" role="alert">
+              <div ng-message-exp="['required']">Isikan nama lengkap</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Alamat</label>
+            <input required name="alamat" ng-model="formField.alamat">
+            <div ng-messages="signupForm.alamat.$error" role="alert">
+              <div ng-message-exp="['required']">Isikan alamat.</div>
+            </div>
+          </md-input-container>
+
+          <div layout="row">
+            <md-input-container flex="50">
+              <label>No. Telp</label>
+              <input required name="telp" type="number" ng-model="formField.telp">
+              <div ng-messages="signupForm.telp.$error" role="alert">
+                <div ng-message-exp="['required']">Isikan nomor telepon.</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex="50">
+              <label>Username</label>
+              <input required name="username" ng-model="formField.username">
+              <div ng-messages="signupForm.username.$error" role="alert">
+                <div ng-message-exp="['required']">Isikan username.</div>
+              </div>
+            </md-input-container>
+          </div>
+
+          <div layout="row">
+            <md-input-container flex="50">
+              <label>Email</label>
+              <input required name="email" ng-pattern="/^.+@.+\..+$/" ng-model="formField.email">
+              <div ng-messages="signupForm.email.$error" role="alert">
+                <div ng-message-exp="['required', 'pattern']">Email harus diisi dengan format yang benar.</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex="50">
+              <label>Password</label>
+              <input required type="password" name="password" minlength="6" ng-model="formField.password">
+              <div ng-messages="signupForm.password.$error" role="alert">
+                <div ng-message-exp="['required', 'minlength']">Isikan password minimal 6 karakter.</div>
+              </div>
+            </md-input-container>
+          </div>
+
+          <div layout="row" layout-align="center center">
+            <div layout-md="6">
+              <md-button class="md-raised md-primary" type="submit">Sign Up</md-button>
+            </div>
+            <div layout-md="6">
+              <md-button class="md-primary" ui-sref="login">Back to login</md-button>
             </div>
           </div>
-          <div class="row ">
-            <div class="input-field col s12">
-              <i class="mdi-social-group prefix"></i>
-              <input placeholder="" id="alamat" ng-model="alamat" name="alamat" type="text" required>
-              <label data-error="alamat required" id="labelAlamat" for="alamat">Alamat</label>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="input-field col s12">
-              <i class="mdi-social-group prefix"></i>
-              <input placeholder="" id="telp" ng-model="telp" name="telp" type="number">
-              <label data-error="telepon required" id="labelTelp" for="telp">No. Telp</label>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="input-field col s12">
-              <i class="mdi-social-group prefix"></i>
-              <input placeholder="" id="username" ng-change="field.verifyUsername()" ng-model="username" name="username" type="text" required>
-              <label data-error="Username already used." id="labelUsername" for="username">Username</label>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="input-field col s12">
-              <i class="mdi-communication-email prefix"></i>
-              <input placeholder="" id="email" ng-change="field.verifyEmail()" ng-model="email" name="email" type="email">
-              <label data-error="Email already used." id="labelEmail" for="email">Email</label>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="input-field col s6">
-              <i class="mdi-action-lock-outline prefix"></i>
-              <input placeholder="" ng-change="field.verifyPassword()" id="password" ng-model="password" name="password" type="password">
-              <label data-error="Required at least 8 characters." for="password" id="labelPassword">Password</label>
-            </div>
-            <div class="input-field col s6">
-              <i class="mdi-action-lock prefix"></i>
-              <input placeholder="" ng-change="field.verifyCPassword()" ng-model="cPassword" id="cPassword" type="password">
-              <label data-error="Password didn't match" for="cPassword" id="labelCPassword">Re-type password</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <button ng-click="signUp()" class="btn waves-effect waves-light col s12">Register Now</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <p class="margin center medium-small sign-up">Already have an account? <a ui-sref="login">Login</a></p>
-            </div>
-          </div>
+          <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
         </form>
-      </div>
-    </div>
-  </div>
+        <br />
+        <div layout="row" layout-align="center center">
+          <p>All Rights Reserved</p>
+        </div>
+      </md-card-content>
+    </md-card>
+  </md-content>
 </div>

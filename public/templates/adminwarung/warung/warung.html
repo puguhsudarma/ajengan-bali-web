@@ -5,8 +5,8 @@
   <md-card>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">{{state.title}}</span>
-        <span class="md-subhead">{{state.subtitle}}</span>
+        <span class="md-headline">{{state.subtitle}}</span>
+        <span class="md-subhead">{{state.title}}</span>
       </md-card-title-text>
       <md-card-title-media>
         <md-button class="md-raised md-primary" ng-if="state.act === 'read'" ng-click="action.add()">
@@ -23,6 +23,7 @@
     <md-card-content>
       <ng-include src="'templates/adminwarung/warung/warung.read.html'"></ng-include>
       <ng-include src="'templates/adminwarung/warung/warung.add.html'"></ng-include>
+      <ng-include src="'templates/adminwarung/warung/warung.update.html'"></ng-include>
     </md-card-content>
   </md-card>
 </md-content>

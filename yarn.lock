@@ -23,3 +23,11 @@ angular-ui-router@^1.0.3:
   resolved "https://registry.yarnpkg.com/angular-ui-router/-/angular-ui-router-1.0.3.tgz#bf2494caae95c37cf01af3761d89747cfed2db45"
   dependencies:
     "@uirouter/core" "5.0.3"
+
+lf-ng-md-file-input@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/lf-ng-md-file-input/-/lf-ng-md-file-input-1.5.2.tgz#d89931f42d13d77709263c7f9fdb248a197eadd0"
+
+ngmap@^1.18.4:
+  version "1.18.4"
+  resolved "https://registry.yarnpkg.com/ngmap/-/ngmap-1.18.4.tgz#8f36d8e840da6829ce5d40e5d747b70c4a3ac833"

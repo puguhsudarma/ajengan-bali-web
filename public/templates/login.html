@@ -1,46 +1,49 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12 m12 l5 offset-l3">
-      <br />
-      <div class="card-panel z-depth-3">
-        <h4 class="text-bold center-align light-blue-text text-darken-4">Ajengan <span class="text-medium">Bali</span></h4>
-        <h5 class="text-light center-align light-blue-text text-darken-4">Sign In</h5>
-        <form>
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="mdi-social-person prefix"></i>
-              <input id="email" ng-model="email" name="email" type="email" required autofocus>
-              <label id="email-label" for="email">Email</label>
+<div layout="row" layout-align="center center">
+  <md-content layout-md="6">
+    <md-card>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Ajengan Bali App</span>
+          <span class="md-subhead">Sign In</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <form ng-submit="tryLogin(formField)" name="loginForm">
+          <md-input-container class="md-block">
+            <label>Email</label>
+            <input required name="email" ng-pattern="/^.+@.+\..+$/" ng-model="formField.email">
+            <div ng-messages="loginForm.email.$error" role="alert">
+              <div ng-message-exp="['required', 'pattern']">Email harus diisi dengan format yang benar.</div>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="mdi-action-lock prefix"></i>
-              <input id="password" ng-model="password" name="password" type="password" required>
-              <label id="password-label" for="password">Password</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <button ng-click="tryLogin()" class="btn waves-effect waves-light col s12 ">SIGN IN</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6 m6 l6">
-              <p class="margin medium-small"><a ui-sref="signup">Register Now!</a></p>
-            </div>
-            <div class="input-field col s6 m6 l6">
-              <p class="margin right-align medium-small"><a ui-sref="forgot-password">Forgot password ?</a></p>
-            </div>
-          </div>
+          </md-input-container>
 
-          <div class="row">
-            <div class="input-field col s12 m12 l12">
-              <p class="margin center-align medium-small">All Rights Reserved</p>
+          <md-input-container class="md-block">
+            <label>Password</label>
+            <input required type="password" name="password" minlength="6" ng-model="formField.password">
+            <div ng-messages="loginForm.password.$error" role="alert">
+              <div ng-message-exp="['required', 'minlength']">Isikan password minimal 6 karakter.</div>
             </div>
+          </md-input-container>
+
+          <div>
+            <md-button class="md-raised md-primary" type="submit">Sign In</md-button>
           </div>
+          <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
         </form>
-      </div>
-    </div>
-  </div>
+        <br />
+        <div layout="row" layout-align="center center">
+          <div layout-md="6">
+            <md-button class="md-primary" ui-sref="signup">Register Now!</md-button>
+          </div>
+          <div layout-md="6">
+            <md-button class="md-primary" ui-sref="singup">Forgot password ?</md-button>
+          </div>
+        </div>
+        <br />
+        <div layout="row" layout-align="center center">
+          <p>All Rights Reserved</p>
+        </div>
+      </md-card-content>
+    </md-card>
+  </md-content>
 </div>

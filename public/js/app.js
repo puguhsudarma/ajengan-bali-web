@@ -15,4 +15,6 @@ const app = angular.module('ajegliApp', [
   'firebase',
   'md.data.table',
   'ui.router',
+  'lfNgMdFileInput',
+  // 'ngMap',
 ]);

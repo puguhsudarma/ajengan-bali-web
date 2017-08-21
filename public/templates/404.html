@@ -1,15 +1,16 @@
-<div class="container">
-  <div class="row">
-    <div class="col s12 m12 l5 offset-l3">
-      <br />
-      <div class="card-panel z-depth-3">
-        <h4 class="text-bold center-align light-blue-text text-darken-4">
-          404 <span class="text-medium">Not Found</span>
-        </h4>
-        <p class="text-bold center-align">
-          <a ui-sref="root">Back to Dashboard</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+<md-content flex layout-padding>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Are you lost ?</span>
+        <span class="md-subhead">404 Not Found</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <md-button ui-sref="root" class="md-raised md-primary">
+        Back to Dashboard
+        <md-icon>home</md-icon>
+      </md-button>
+    </md-card-content>
+  </md-card>
+</md-content>

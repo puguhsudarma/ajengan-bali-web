@@ -3,6 +3,8 @@
     "angular-data-table": "^0.7.0",
     "angular-material-data-table": "^0.10.10",
     "angular-smart-table": "^2.1.8",
-    "angular-ui-router": "^1.0.3"
+    "angular-ui-router": "^1.0.3",
+    "lf-ng-md-file-input": "^1.5.2",
+    "ngmap": "^1.18.4"
   }
 }
