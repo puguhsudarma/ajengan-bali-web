@@ -1,0 +1,29 @@
+<ng-include src="'templates/partials/navbar.html'"></ng-include>
+<ng-include src="'templates/partials/sidebar.html'"></ng-include>
+
+<md-content flex layout-padding>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{state.subtitle}}</span>
+        <span class="md-subhead">{{state.title}}</span>
+      </md-card-title-text>
+      <md-card-title-media>
+        <md-button class="md-raised md-primary" ng-if="state.act !== 'edit'" ng-click="action.update()">
+          Edit Data
+          <md-icon>edit</md-icon>
+        </md-button>
+
+        <md-button class="md-raised md-primary" ng-if="state.act === 'edit'" ng-click="action.back()">
+          Kembali
+          <md-icon>arrow_back</md-icon>
+        </md-button>
+      </md-card-title-media>
+    </md-card-title>
+    <md-card-content>
+      <ng-include src="'templates/adminwarung/profile/profile.read.html'"></ng-include>
+    </md-card-content>
+  </md-card>
+</md-content>
+
+<ng-include src="'templates/partials/footer.html'"></ng-include>

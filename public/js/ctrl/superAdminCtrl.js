@@ -1,4 +1,4 @@
 app
-  .controller('dashCtrl', [function () {
+  .controller('SuperAdmin_DashboardCtrl', [function () {
 
   }]);

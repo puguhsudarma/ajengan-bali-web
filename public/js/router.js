@@ -1,3 +1,18 @@
+function authRoot($firebaseAuth, $state) {
+  $firebaseAuth()
+    .$waitForSignIn()
+    .then(data => {
+      if (data !== null) {
+        if (localStorage.getItem('level') === '0') {
+          return $state.go('superadmin-dashboard');
+        }
+        return $state.go('adminwarung-dashboard');
+      }
+      return $state.go('login');
+    })
+    .catch(err => $state.go('login'));
+}
+
 function authGuest($firebaseAuth, $state) {
   return $firebaseAuth()
     .$waitForSignIn()
@@ -48,22 +63,7 @@ app
     $stateProvider
       .state('root', {
         url: '',
-        resolve: {
-          currentAuth: ['$firebaseAuth', '$state', function ($firebaseAuth, $state) {
-            $firebaseAuth()
-              .$waitForSignIn()
-              .then(data => {
-                if (data !== null) {
-                  if (localStorage.getItem('level') === '0') {
-                    return $state.go('superadmin-dashboard');
-                  }
-                  return $state.go('adminwarung-dashboard');
-                }
-                return $state.go('login');
-              })
-              .catch(err => $state.go('login'));
-          }],
-        },
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authRoot] },
         cache: true,
       })
       .state('login', {
@@ -98,7 +98,7 @@ app
       // admin warung
       .state('adminwarung-dashboard', {
         url: '/admin-warung-dashboard',
-        templateUrl: 'templates/adminwarung/dashboard.html',
+        templateUrl: 'templates/adminwarung/dashboard/dashboard.html',
         // controller: 'DashCtrl as dash',
         resolve: { currentAuth: ['$firebaseAuth', '$state', authAdminWarung] },
         cache: true,
@@ -116,7 +116,14 @@ app
         controller: 'AdminWarung_MakananCtrl as makanan',
         resolve: { currentAuth: ['$firebaseAuth', '$state', authAdminWarung] },
         cache: true,
-      });;
+      })
+      .state('adminwarung-profile', {
+        url: '/admin-warung-profile',
+        templateUrl: 'templates/adminwarung/profile/profile.html',
+        controller: 'AdminWarung_ProfileCtrl as profile',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authAdminWarung] },
+        cache: true,
+      });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/iamlost');

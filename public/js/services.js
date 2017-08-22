@@ -1,5 +1,5 @@
 app
-  .service('LoginService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {
+  .service('AuthService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {    
     this.login = function (email, password) {
       return $firebaseAuth().$signInWithEmailAndPassword(email, password);
     };
@@ -14,29 +14,8 @@ app
       localStorage.clear();
       return fb.auth().signOut();
     };
-  }])
 
-  .service('SignUpService', ['$firebaseAuth', function ($firebaseAuth) {
-    this.checkUniqueUsername = function (username) {
-      return firebase
-        .database()
-        .ref('users')
-        .orderByChild('username')
-        .equalTo(username)
-        .once('value');
-    };
-
-    this.checkUniqueEmail = function (email) {
-      return firebase
-        .database()
-        .ref('users')
-        .orderByChild('email')
-        .equalTo(email)
-        .once('value');
-    };
-
-    this.signUp = function ({ nama, alamat, telp, username, email, password }) {
-      const data = { nama, alamat, telp, username, email, level: '1' };
+    this.signUp = function (email, password, data) {
       // sign up proccess
       return $firebaseAuth()
         .$createUserWithEmailAndPassword(email, password)
@@ -48,6 +27,11 @@ app
             .set(data);
         })
         .catch(err => err);
+    };
+
+    this.updateAkun = function(data){
+      const auth = $firebaseAuth().$getAuth();
+      return fb.database().ref(`users/${auth.uid}`).update(data);
     };
   }])
 
@@ -99,14 +83,14 @@ app
       });
     };
   }])
-  
+
   .service('MakananService', ['$firebaseArray', '$firebaseStorage', function ($firebaseArray, $firebaseStorage) {
     this.getKategori = function () {
       const ref = fb.database().ref('masterData/jenisMakanan');
       return $firebaseArray(ref).$loaded();
     };
 
-    this.getWarung = function(){
+    this.getWarung = function () {
       const uid = localStorage.getItem('uid');
       const ref = fb.database()
         .ref(`warung`)
@@ -115,7 +99,7 @@ app
       return $firebaseArray(ref).$loaded();
     }
 
-    this.getMakanan = function(){
+    this.getMakanan = function () {
       const uid = localStorage.getItem('uid');
       const ref = fb.database()
         .ref(`makanan`)

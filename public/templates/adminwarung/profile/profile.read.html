@@ -1,0 +1,63 @@
+<md-content layout-padding>
+  <form ng-submit="onSubmitUpdate(formField)" name="Form">
+    <div layout="row">
+      <!-- <div flex="30" style="margin-right: 30px;">
+        <md-input-container class="md-block">
+          <lf-ng-md-file-input lf-placeholder="Warung " lf-filesize="3MB" accept="image/*" lf-files='formField.image' drag preview></lf-ng-md-file-input>
+          <div ng-messages="Form.image.$error">
+            <div ng-message="filesize">Ukuran file gambar harus kurang dari 3MB.</div>
+            <div ng-message="mimetype">Isikan file gambar.</div>
+          </div>
+        </md-input-container>
+      </div> -->
+
+      <div flex="100">
+        <md-input-container class="md-block">
+          <label>Nama Lengkap</label>
+          <input required name="nama" ng-disabled="state.act !== 'edit'" ng-model="formField.nama">
+          <div ng-messages="Form.nama.$error" role="alert">
+            <div ng-message-exp="['required']">Isikan nama lengkap</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Alamat</label>
+          <input required name="alamat" ng-disabled="state.act !== 'edit'" ng-model="formField.alamat">
+          <div ng-messages="Form.alamat.$error" role="alert">
+            <div ng-message-exp="['required']">Isikan alamat.</div>
+          </div>
+        </md-input-container>
+
+        <div layout="row">
+          <md-input-container flex="50">
+            <label>No. Telp</label>
+            <input required name="telp" ng-disabled="state.act !== 'edit'" type="number" ng-model="formField.telp">
+            <div ng-messages="Form.telp.$error" role="alert">
+              <div ng-message-exp="['required']">Isikan nomor telepon.</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container flex="50">
+            <label>Username</label>
+            <input required name="username" ng-disabled="state.act !== 'edit'" ng-model="formField.username">
+            <div ng-messages="Form.username.$error" role="alert">
+              <div ng-message-exp="['required']">Isikan username.</div>
+            </div>
+          </md-input-container>
+        </div>
+        <md-input-container class="md-block">
+          <label>Email</label>
+          <input required name="email" ng-disabled="true" ng-pattern="/^.+@.+\..+$/" ng-model="formField.email">
+          <div ng-messages="Form.email.$error" role="alert">
+            <div ng-message-exp="['required', 'pattern']">Email harus diisi dengan format yang benar.</div>
+          </div>
+        </md-input-container>
+      </div>
+    </div>
+
+    <div>
+      <md-button ng-disabled="state.act !== 'edit'" class="md-raised md-primary" type="submit">Update</md-button>
+    </div>
+    <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
+  </form>
+</md-content>

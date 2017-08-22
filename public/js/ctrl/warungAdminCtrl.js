@@ -221,6 +221,7 @@ app
       );
     }
   }])
+
   .controller('AdminWarung_MakananCtrl', ['$scope', 'MakananService', '$mdDialog', '$mdToast', function ($scope, MakananService, $mdDialog, $mdToast) {
     $scope.state = {
       title: 'Data Makanan',
@@ -236,7 +237,6 @@ app
     // fetch data
     MakananService.getMakanan()
       .then(data => {
-        console.log(data);
         $scope.state.data = data;
         return MakananService.getKategori();
       })
@@ -369,7 +369,7 @@ app
         const push = {
           nama: data.nama,
           kategori: data.kategori,
-          warung: data.warung,
+          warungId: data.warung,
           harga: data.harga,
           deskripsi: data.deskripsi,
         };
@@ -400,7 +400,7 @@ app
         const push = {
           nama: data.nama,
           kategori: data.kategori,
-          warung: data.warung,
+          warungId: data.warung,
           harga: data.harga,
           deskripsi: data.deskripsi,
           picture: snapshot.downloadURL,
@@ -419,6 +419,88 @@ app
           });
       });
       return;
+    }
+
+    // fungsi pembantu
+    function toast(text) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent(text)
+          .position('top right')
+          .hideDelay(4000)
+      );
+    }
+  }])
+
+  .controller('AdminWarung_ProfileCtrl', ['$scope', 'AuthService', '$mdDialog', '$mdToast', function ($scope, AuthService, $mdDialog, $mdToast) {
+    $scope.state = {
+      title: 'Data Profil Akun',
+      subtitle: 'Profil Akun',
+      act: 'read',
+      loading: true,
+      currentEmail: null,
+    };
+
+    $scope.formField = {
+      nama: null,
+      alamat: null,
+      username: null,
+      email: null,
+      telp: null,
+      password: null,
+    };
+
+    // fetch data
+    AuthService.dataLogin()
+      .then(data => {
+        $scope.formField = {
+          nama: data.nama,
+          alamat: data.alamat,
+          username: data.username,
+          email: data.email,
+          telp: data.telp,
+        };
+        $scope.state.currentEmail = data.email;
+        $scope.state.loading = false;
+      })
+      .catch(err => toast(err));
+
+    // fungsi action
+    $scope.action = {
+      update: function () {
+        $scope.state.act = 'edit';
+        $scope.state.subtitle = 'Update data profil akun';
+      },
+      back: function () {
+        $scope.state.act = 'read';
+        $scope.state.subtitle = 'Data profil akun';
+      },
+    };
+
+    // fungsi submit form
+    $scope.onSubmitUpdate = function (data) {
+      // return;
+      $scope.state.loading = true;
+      const push = {
+        nama: data.nama,
+        alamat: data.alamat,
+        username: data.username,
+        email: data.email,
+        telp: data.telp,
+      };
+      // update akun
+      AuthService.updateAkun(push)
+        .then(() => {
+          toast('Data berhasil di update.');
+          $scope.action.back();
+          $scope.state.loading = false;
+          return;
+        })
+        .catch(err => {
+          toast(err);
+          $scope.state.loading = false;
+          return;
+        });
     }
 
     // fungsi pembantu

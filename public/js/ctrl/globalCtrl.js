@@ -4,9 +4,9 @@ app
       $mdSidenav('left').toggle();
     };
   }])
-  .controller('sideBarCtrl', ['$scope', '$state', 'LoginService', function ($scope, $state, LoginService) {
+  .controller('sideBarCtrl', ['$scope', '$state', 'AuthService', function ($scope, $state, AuthService) {
     function logout() {
-      return LoginService.logout()
+      return AuthService.logout()
         .then(() => $state.go('login'))
         .catch(() => { });
     };
@@ -28,18 +28,23 @@ app
       $scope.menuList = [
         {
           click: () => $state.go('adminwarung-dashboard'),
-          icon: 'link',
+          icon: 'home',
           text: 'Dashboard',
         },
         {
           click: () => $state.go('adminwarung-warung'),
-          icon: 'link',
+          icon: 'restaurant',
           text: 'Data Warung',
         },
         {
           click: () => $state.go('adminwarung-makanan'),
-          icon: 'link',
+          icon: 'restaurant_menu',
           text: 'Data Makanan',
+        },
+        {
+          click: () => $state.go('adminwarung-profile'),
+          icon: 'account_circle',
+          text: 'Profil Akun',
         },
         {
           click: () => logout(),

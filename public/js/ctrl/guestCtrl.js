@@ -1,14 +1,14 @@
 app
-  .controller('LoginCtrl', ['$scope', '$state', 'LoginService', '$mdToast', function ($scope, $state, LoginService, $mdToast) {
+  .controller('LoginCtrl', ['$scope', '$state', 'AuthService', '$mdToast', function ($scope, $state, AuthService, $mdToast) {
     $scope.state = {
       loading: false,
     };
 
     $scope.tryLogin = function (data) {
       $scope.state.loading = true;
-      LoginService
+      AuthService
         .login(data.email, data.password)
-        .then(() => LoginService.dataLogin())
+        .then(() => AuthService.dataLogin())
         .then(data => {
           localStorage.setItem('uid', data.$id);
           localStorage.setItem('email', data.email);
@@ -32,7 +32,7 @@ app
     };
   }])
 
-  .controller('SignUpCtrl', ['$scope', '$state', '$mdToast', 'SignUpService', 'LoginService', function ($scope, $state, $mdToast, SignUpService, LoginService) {
+  .controller('SignUpCtrl', ['$scope', '$state', '$mdToast', 'AuthService', function ($scope, $state, $mdToast, AuthService) {
     // verify some fields
     $scope.state = {
       loading: false,
@@ -47,11 +47,14 @@ app
         telp: data.telp,
         username: data.username,
         email: data.email,
-        password: data.password
+        // image: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2Fpic.png?alt=media&token=e505fe28-919a-463e-b174-a75c12d9c892',
+        // nameImage: 'pic.png',
+        softDelete: false,
+        level: 1,
       };
-      SignUpService
-        .signUp(push)
-        .then(() => LoginService.login(data.email, data.password))
+      AuthService
+        .signUp(data.email, data.password, push)
+        .then(() => AuthService.login(data.email, data.password))
         .then(() => {
           localStorage.setItem('nama', data.nama);
           localStorage.setItem('level', '1');
