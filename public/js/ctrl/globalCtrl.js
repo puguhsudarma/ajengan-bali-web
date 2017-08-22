@@ -15,12 +15,27 @@ app
       $scope.menuList = [
         {
           click: () => $state.go('superadmin-dashboard'),
-          icon: 'link',
+          icon: 'home',
           text: 'Dashboard',
         },
         {
+          click: () => $state.go('superadmin-warung'),
+          icon: 'restaurant',
+          text: 'Data Warung',
+        },
+        {
+          click: () => $state.go('superadmin-makanan'),
+          icon: 'restaurant_menu',
+          text: 'Data Makanan',
+        },
+        {
+          click: () => $state.go('superadmin-profile'),
+          icon: 'account_circle',
+          text: 'Profil Akun',
+        },
+        {
           click: () => logout(),
-          icon: 'exit to app',
+          icon: 'exit_to_app',
           text: 'Logout',
         },
       ];

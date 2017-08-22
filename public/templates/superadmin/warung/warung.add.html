@@ -1,0 +1,69 @@
+<div ng-if="state.act === 'add'">
+  <md-content layout-padding>
+    <form ng-submit="onSubmitAdd(formField)" name="addWarungForm">
+      <md-input-container class="md-block">
+        <label>Nama</label>
+        <input required name="nama" ng-model="formField.nama">
+        <div ng-messages="addWarungForm.nama.$error">
+          <div ng-message="required">Isikan nama warung.</div>
+        </div>
+      </md-input-container>
+
+      <div layout="row">
+        <md-input-container flex="50">
+          <label>Daerah</label>
+          <input required name="daerah" ng-model="formField.daerah">
+          <div ng-messages="addWarungForm.daerah.$error">
+            <div ng-message="required">Isikan nama daerah warung.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container flex="50">
+          <label>Kategori</label>
+          <md-select name="kategori" ng-model="formField.kategori" required md-no-asterisk="false">
+            <md-option ng-repeat="kat in state.kategori" value="{{kat.$value}}">{{kat.$value}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+        <md-input-container flex="50">
+          <label>Latitude</label>
+          <input required name="latitude" required ng-model="formField.latitude">
+          <div ng-messages="addWarungForm.latitude.$error">
+            <div ng-message="required">Isikan latitude lokasi warung.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container flex="50">
+          <label>Longitude</label>
+          <input required name="longitude" ng-model="formField.longitude">
+          <div ng-messages="addWarungForm.longitude.$error">
+            <div ng-message="required">Isikan longitude lokasi warung.</div>
+          </div>
+        </md-input-container>
+      </div>
+
+      <md-input-container class="md-block">
+        <lf-ng-md-file-input lf-placeholder="Gambar Warung" lf-filesize="3MB" accept="image/*" lf-files='formField.image' drag preview></lf-ng-md-file-input>
+        <div ng-messages="addWarungForm.image.$error">
+          <div ng-message="filesize">Ukuran file gambar harus kurang dari 3MB.</div>
+          <div ng-message="mimetype">Isikan file gambar.</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label>Deskripsi</label>
+        <textarea required name="deskripsi" ng-model="formField.deskripsi"></textarea>
+        <div ng-messages="addWarungForm.deskripsi.$error">
+          <div ng-message="required">Isikan deskripsi warung.</div>
+        </div>
+      </md-input-container>
+
+      <div>
+        <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+      </div>
+      <md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
+    </form>
+  </md-content>
+</div>

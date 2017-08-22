@@ -80,6 +80,13 @@ app
         resolve: { currentAuth: ['$firebaseAuth', '$state', authGuest] },
         cache: true,
       })
+      .state('resetpassword', {
+        url: '/resetpassword',
+        templateUrl: 'templates/resetPassword.html',
+        controller: 'ResetPasswordCtrl as reset',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authGuest] },
+        cache: true,
+      })
       .state('lost', {
         url: '/iamlost',
         templateUrl: 'templates/404.html',
@@ -89,8 +96,29 @@ app
       // super admin
       .state('superadmin-dashboard', {
         url: '/super-admin-dashboard',
-        templateUrl: 'templates/superadmin/dashboard.html',
+        templateUrl: 'templates/superadmin/dashboard/dashboard.html',
         // controller: 'DashCtrl as dash',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
+        cache: true,
+      })
+      .state('superadmin-warung', {
+        url: '/super-admin-warung',
+        templateUrl: 'templates/superadmin/warung/warung.html',
+        controller: 'SuperAdmin_WarungCtrl as warung',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
+        cache: true,
+      })
+      .state('superadmin-makanan', {
+        url: '/super-admin-makanan',
+        templateUrl: 'templates/superadmin/makanan/makanan.html',
+        controller: 'SuperAdmin_MakananCtrl as makanan',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
+        cache: true,
+      })
+      .state('superadmin-profile', {
+        url: '/super-admin-profile',
+        templateUrl: 'templates/superadmin/profile/profile.html',
+        controller: 'SuperAdmin_ProfileCtrl as profile',
         resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
         cache: true,
       })

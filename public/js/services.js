@@ -1,5 +1,5 @@
 app
-  .service('AuthService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {    
+  .service('AuthService', ['$firebaseAuth', '$firebaseObject', function ($firebaseAuth, $firebaseObject) {
     this.login = function (email, password) {
       return $firebaseAuth().$signInWithEmailAndPassword(email, password);
     };
@@ -29,13 +29,25 @@ app
         .catch(err => err);
     };
 
-    this.updateAkun = function(data){
+    this.updateAkun = function (data) {
       const auth = $firebaseAuth().$getAuth();
       return fb.database().ref(`users/${auth.uid}`).update(data);
+    };
+
+    this.resetPassword = function(email){
+      return fb.auth().sendPasswordResetEmail(email);
     };
   }])
 
   .service('WarungService', ['$firebaseArray', '$firebaseStorage', function ($firebaseArray, $firebaseStorage) {
+    this.getWarungAll = function () {
+      const ref = fb.database()
+        .ref(`warung`)
+        .orderByChild('softDelete')
+        .equalTo(false);
+      return $firebaseArray(ref).$loaded();
+    };
+
     this.getWarungWhereOwner = function () {
       const uid = localStorage.getItem('uid');
       const ref = fb
@@ -58,7 +70,6 @@ app
             .toString(16)
             .substring(1);
         }
-
         return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
       }
       const ref = fb.storage().ref(`warung/${guid()}_${filename}`);
@@ -90,12 +101,28 @@ app
       return $firebaseArray(ref).$loaded();
     };
 
+    this.getWarungAll = function () {
+      const ref = fb.database()
+        .ref(`warung`)
+        .orderByChild('softDelete')
+        .equalTo(false);
+      return $firebaseArray(ref).$loaded();
+    }
+
     this.getWarung = function () {
       const uid = localStorage.getItem('uid');
       const ref = fb.database()
         .ref(`warung`)
         .orderByChild('indexUidSoftDelete')
         .equalTo(`${false}_${uid}`);
+      return $firebaseArray(ref).$loaded();
+    }
+
+    this.getMakananAll = function () {
+      const ref = fb.database()
+        .ref(`makanan`)
+        .orderByChild('softDelete')
+        .equalTo(false);
       return $firebaseArray(ref).$loaded();
     }
 

@@ -61,11 +61,42 @@ app
           $scope.state.loading = false;
           $state.go('adminwarung-dashboard');
         })
+        .catch(err => {
+          $scope.state.loading = false;
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent(err)
+              .position('top right')
+              .hideDelay(4000)
+          );
+        });
+    };
+  }])
+
+  .controller('ResetPasswordCtrl', ['$scope', '$state', 'AuthService', '$mdToast', function ($scope, $state, AuthService, $mdToast) {
+    $scope.state = {
+      loading: false,
+    };
+
+    $scope.resetPassword = function (data) {
+      $scope.state.loading = true;
+      AuthService
+        .resetPassword(data.email)
+        .then(() => {
+          $scope.state.loading = false;
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent('Link reset password sudah dikirim ke email anda.')
+              .position('top right')
+              .hideDelay(4000)
+          );
+          $state.go('login');
+        })
         .catch(() => {
           $scope.state.loading = false;
           $mdToast.show(
             $mdToast.simple()
-              .textContent('Terjadi kesalahan dalam pendaftaran akun.')
+              .textContent('Pastikan email sudah terdaftar.')
               .position('top right')
               .hideDelay(4000)
           );
