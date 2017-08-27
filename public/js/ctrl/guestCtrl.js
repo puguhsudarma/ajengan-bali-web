@@ -14,7 +14,6 @@ app
           localStorage.setItem('email', data.email);
           localStorage.setItem('nama', data.nama);
           localStorage.setItem('level', data.level);
-          $scope.state.loading = false;
           if (data.level === 0) {
             return $state.go('superadmin-dashboard');
           }
@@ -47,18 +46,22 @@ app
         telp: data.telp,
         username: data.username,
         email: data.email,
-        // image: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2Fpic.png?alt=media&token=e505fe28-919a-463e-b174-a75c12d9c892',
-        // nameImage: 'pic.png',
         softDelete: false,
         level: 1,
       };
       AuthService
-        .signUp(data.email, data.password, push)
-        .then(() => AuthService.login(data.email, data.password))
-        .then(() => {
+        .signUp(data.email, data.password)
+        .then((auth) => {
+          return Promise.resolve({
+            pushData: firebase.database().ref(`users/${auth.uid}`).set(push),
+            uid: auth.uid,
+          });
+        })
+        .then((auth) => {
+          localStorage.setItem('uid', auth.uid);
+          localStorage.setItem('email', data.email);
           localStorage.setItem('nama', data.nama);
-          localStorage.setItem('level', '1');
-          $scope.state.loading = false;
+          localStorage.setItem('level', 1);
           $state.go('adminwarung-dashboard');
         })
         .catch(err => {
@@ -83,7 +86,6 @@ app
       AuthService
         .resetPassword(data.email)
         .then(() => {
-          $scope.state.loading = false;
           $mdToast.show(
             $mdToast.simple()
               .textContent('Link reset password sudah dikirim ke email anda.')

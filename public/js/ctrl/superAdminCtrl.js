@@ -80,6 +80,7 @@ app
     $scope.state.loading = true;
     if (data.image.length === 0) {
       const push = {
+        totalRating: 0,
         daerah: data.daerah,
         deskripsi: data.deskripsi,
         kategori: data.kategori,
@@ -114,6 +115,7 @@ app
     });
     uploadTask.$complete(snapshot => {
       const push = {
+        totalRating: 0,
         daerah: data.daerah,
         deskripsi: data.deskripsi,
         kategori: data.kategori,
@@ -292,6 +294,7 @@ app
     $scope.state.loading = true;
     if (data.image.length === 0) {
       const push = {
+        totalRating: 0,
         deskripsi: data.deskripsi,
         kategori: data.kategori,
         warungId: data.warung,
@@ -326,6 +329,7 @@ app
     });
     uploadTask.$complete(snapshot => {
       const push = {
+        totalRating: 0,
         deskripsi: data.deskripsi,
         kategori: data.kategori,
         warungId: data.warung,

@@ -15,18 +15,9 @@ app
       return fb.auth().signOut();
     };
 
-    this.signUp = function (email, password, data) {
-      // sign up proccess
+    this.signUp = function (email, password) {
       return $firebaseAuth()
-        .$createUserWithEmailAndPassword(email, password)
-        .then(user => Promise.resolve(user.uid))
-        .then(uid => {
-          return firebase
-            .database()
-            .ref(`users/${uid}`)
-            .set(data);
-        })
-        .catch(err => err);
+        .$createUserWithEmailAndPassword(email, password);
     };
 
     this.updateAkun = function (data) {
@@ -34,7 +25,7 @@ app
       return fb.database().ref(`users/${auth.uid}`).update(data);
     };
 
-    this.resetPassword = function(email){
+    this.resetPassword = function (email) {
       return fb.auth().sendPasswordResetEmail(email);
     };
   }])

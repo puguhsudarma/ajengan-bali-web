@@ -8,7 +8,7 @@ app
     function logout() {
       return AuthService.logout()
         .then(() => $state.go('login'))
-        .catch(() => { });
+        .catch(err => console.log(err));
     };
 
     if (localStorage.getItem('level') === '0') {
