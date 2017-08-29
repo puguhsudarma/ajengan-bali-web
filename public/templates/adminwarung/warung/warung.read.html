@@ -14,6 +14,8 @@
           <th md-column>Daerah</th>
           <th md-column md-numeric>Latitude</th>
           <th md-column md-numeric>Longitude</th>
+          <th md-column>Alamat</th>
+          <th md-column>Telepon</th>
           <th md-column>Deskripsi</th>
           <th md-column>Gambar</th>
           <th md-column colspan="2">Action</th>
@@ -27,6 +29,8 @@
           <td md-cell>{{row.daerah}}</td>
           <td md-cell>{{row.lat}}</td>
           <td md-cell>{{row.lng}}</td>
+          <td md-cell>{{row.alamat}}</td>
+          <td md-cell>{{row.telepon}}</td>
           <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
           <td md-cell><img src="{{row.picture}}" width="50" /></td>
           <td md-cell>

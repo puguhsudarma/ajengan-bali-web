@@ -44,6 +44,24 @@
         </md-input-container>
       </div>
 
+      <div layout="row">
+        <md-input-container flex="50">
+          <label>Alamat</label>
+          <input required name="alamat" required ng-model="formField.alamat">
+          <div ng-messages="addWarungForm.alamat.$error">
+            <div ng-message="required">Isikan Alamat warung.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container flex="50">
+          <label>No. Telepon</label>
+          <input required name="telepon" ng-model="formField.telepon">
+          <div ng-messages="addWarungForm.telepon.$error">
+            <div ng-message="required">Isikan telepon warung.</div>
+          </div>
+        </md-input-container>
+      </div>
+
       <md-input-container class="md-block">
         <lf-ng-md-file-input lf-placeholder="Gambar Warung" lf-filesize="3MB" accept="image/*" lf-files='formField.image' drag preview></lf-ng-md-file-input>
         <div ng-messages="addWarungForm.image.$error">
