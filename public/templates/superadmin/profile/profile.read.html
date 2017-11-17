@@ -31,7 +31,7 @@
         <div layout="row">
           <md-input-container flex="50">
             <label>No. Telp</label>
-            <input required name="telp" ng-disabled="state.act !== 'edit'" type="number" ng-model="formField.telp">
+            <input required name="telp" ng-disabled="state.act !== 'edit'" type="text" ng-model="formField.telp">
             <div ng-messages="Form.telp.$error" role="alert">
               <div ng-message-exp="['required']">Isikan nomor telepon.</div>
             </div>
