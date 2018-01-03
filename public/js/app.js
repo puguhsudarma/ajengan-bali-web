@@ -16,5 +16,4 @@ const app = angular.module('ajegliApp', [
   'md.data.table',
   'ui.router',
   'lfNgMdFileInput',
-  // 'ngMap',
 ]);

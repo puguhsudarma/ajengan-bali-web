@@ -5,6 +5,7 @@
     "angular-smart-table": "^2.1.8",
     "angular-ui-router": "^1.0.3",
     "lf-ng-md-file-input": "^1.5.2",
-    "ngmap": "^1.18.4"
+    "ngmap": "^1.18.4",
+    "querybase": "^0.6.0"
   }
 }
