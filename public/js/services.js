@@ -31,12 +31,28 @@ app
   }])
 
   .service('WarungService', ['$firebaseArray', '$firebaseStorage', function ($firebaseArray, $firebaseStorage) {
-    this.getWarungAll = function () {
+    this.getWarungVerified = function () {
       const ref = fb.database()
         .ref(`warung`)
-        .orderByChild('softDelete')
+        .orderByChild('verifikasi')
+        .equalTo(true);
+      return $firebaseArray(ref).$loaded();
+    };
+
+    this.getWarungUnverified = function () {
+      const ref = fb.database()
+        .ref('warung')
+        .orderByChild('verifikasi')
         .equalTo(false);
       return $firebaseArray(ref).$loaded();
+    };
+
+    this.verifikasiDataWarung = function (key, uid) {
+      const ref = fb.database().ref('warung');
+      return ref.child(key).update({
+        verifikasi: true,
+        indexUidVerifikasi: `${true}_${uid}`,
+      });
     };
 
     this.getWarungWhereOwner = function () {
@@ -44,7 +60,17 @@ app
       const ref = fb
         .database()
         .ref(`warung`)
-        .orderByChild('indexUidSoftDelete')
+        .orderByChild('indexUidVerifikasi')
+        .equalTo(`${true}_${uid}`);
+      return $firebaseArray(ref).$loaded();
+    };
+
+    this.getWarungUnverifiedWhereOwner = function () {
+      const uid = localStorage.getItem('uid');
+      const ref = fb
+        .database()
+        .ref(`warung`)
+        .orderByChild('indexUidVerifikasi')
         .equalTo(`${false}_${uid}`);
       return $firebaseArray(ref).$loaded();
     };
@@ -78,11 +104,11 @@ app
     };
 
     this.deleteDataWarung = function (key) {
-      const ref = fb.database().ref('warung');
-      return ref.child(key).update({
-        softDelete: true,
-        indexUidSoftDelete: `${true}_${localStorage.getItem('uid')}`,
-      });
+      const ref = [
+        fb.database().ref('warung').child(key).remove(),
+        fb.database().ref('rating/warung').child(key).remove()
+      ];
+      return Promise.all(ref);
     };
   }])
 
@@ -95,8 +121,8 @@ app
     this.getWarungAll = function () {
       const ref = fb.database()
         .ref(`warung`)
-        .orderByChild('softDelete')
-        .equalTo(false);
+        .orderByChild('verifikasi')
+        .equalTo(true);
       return $firebaseArray(ref).$loaded();
     }
 
@@ -104,16 +130,13 @@ app
       const uid = localStorage.getItem('uid');
       const ref = fb.database()
         .ref(`warung`)
-        .orderByChild('indexUidSoftDelete')
-        .equalTo(`${false}_${uid}`);
+        .orderByChild('indexUidVerifikasi')
+        .equalTo(`${true}_${uid}`);
       return $firebaseArray(ref).$loaded();
     }
 
     this.getMakananAll = function () {
-      const ref = fb.database()
-        .ref(`makanan`)
-        .orderByChild('softDelete')
-        .equalTo(false);
+      const ref = fb.database().ref(`makanan`);
       return $firebaseArray(ref).$loaded();
     }
 
@@ -121,8 +144,8 @@ app
       const uid = localStorage.getItem('uid');
       const ref = fb.database()
         .ref(`makanan`)
-        .orderByChild('indexUidSoftDelete')
-        .equalTo(`${false}_${uid}`);
+        .orderByChild('uid')
+        .equalTo(uid);
       return $firebaseArray(ref).$loaded();
     }
 
@@ -151,10 +174,10 @@ app
     };
 
     this.deleteData = function (key) {
-      const ref = fb.database().ref('makanan');
-      return ref.child(key).update({
-        softDelete: true,
-        indexUidSoftDelete: `${true}_${localStorage.getItem('uid')}`,
-      });
+      const ref = [
+        fb.database().ref('makanan').child(key).remove(),
+        fb.database().ref('rating/makanan').child(key).remove()
+      ];
+      return Promise.all(ref);
     };
   }]);

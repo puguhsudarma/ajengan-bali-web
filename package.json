@@ -1,4 +1,8 @@
 {
+  "name": "ajenganbaliweb",
+  "version": "1.0.0",
+  "description": "Website maintenance data Ajengan Bali",
+  "main": "index.js",
   "dependencies": {
     "angular-data-table": "^0.7.0",
     "angular-material-data-table": "^0.10.10",
@@ -7,5 +11,27 @@
     "lf-ng-md-file-input": "^1.5.2",
     "ngmap": "^1.18.4",
     "querybase": "^0.6.0"
-  }
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/puguhsudarma/ajengan-bali-web.git"
+  },
+  "keywords": [
+    "web",
+    "ajengan",
+    "bali",
+    "firebase",
+    "angularjs"
+  ],
+  "author": "Reroet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/puguhsudarma/ajengan-bali-web/issues"
+  },
+  "homepage": "https://github.com/puguhsudarma/ajengan-bali-web#readme"
 }

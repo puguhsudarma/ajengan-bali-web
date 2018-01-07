@@ -24,6 +24,11 @@ app
           text: 'Data Warung',
         },
         {
+          click: () => $state.go('superadmin-verifikasi-warung'),
+          icon: 'check_circle',
+          text: 'Verifikasi Data Warung',
+        },
+        {
           click: () => $state.go('superadmin-makanan'),
           icon: 'restaurant_menu',
           text: 'Data Makanan',
@@ -50,6 +55,11 @@ app
           click: () => $state.go('adminwarung-warung'),
           icon: 'restaurant',
           text: 'Data Warung',
+        },
+        {
+          click: () => $state.go('adminwarung-verifikasi-warung'),
+          icon: 'check_circle',
+          text: 'Unverified Data Warung',
         },
         {
           click: () => $state.go('adminwarung-makanan'),

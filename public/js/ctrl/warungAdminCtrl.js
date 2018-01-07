@@ -93,8 +93,8 @@ app
           nama: data.nama,
           picture: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2FNoImage.png?alt=media&token=86dca0ea-2252-4f0a-8ffc-da006ce1752c',
           uid: localStorage.getItem('uid'),
-          softDelete: false,
-          indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
+          verifikasi: false,
+          indexUidVerifikasi: `${false}_${localStorage.getItem('uid')}`,
         };
 
         WarungService
@@ -130,8 +130,8 @@ app
           nama: data.nama,
           picture: snapshot.downloadURL,
           uid: localStorage.getItem('uid'),
-          softDelete: false,
-          indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
+          verifikasi: false,
+          indexUidVerifikasi: `${false}_${localStorage.getItem('uid')}`,
         };
         WarungService
           .pushDataWarung(push)
@@ -234,6 +234,34 @@ app
     }
   }])
 
+  .controller('AdminWarung_VerifikasiWarungCtrl', ['$scope', 'WarungService', '$mdDialog', '$mdToast', function ($scope, WarungService, $mdDialog, $mdToast) {
+    $scope.state = {
+      title: 'Unverified Data Warung',
+      subtitle: 'Tabel Unverified data warung',
+      data: [],
+      loading: true,
+    };
+
+    // fetch data
+    WarungService
+      .getWarungUnverifiedWhereOwner()
+      .then(data => {
+        $scope.state.data = data;
+        $scope.state.loading = false;
+      })
+      .catch(err => toast(err.message));
+
+    // fungsi pembantu
+    function toast(text) {
+      $mdToast.show(
+        $mdToast.simple()
+          .textContent(text)
+          .position('top right')
+          .hideDelay(4000)
+      );
+    }
+  }])
+
   .controller('AdminWarung_MakananCtrl', ['$scope', 'MakananService', '$mdDialog', '$mdToast', function ($scope, MakananService, $mdDialog, $mdToast) {
     $scope.state = {
       title: 'Data Makanan',
@@ -322,9 +350,6 @@ app
           harga: data.harga,
           picture: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2FNoImage.png?alt=media&token=86dca0ea-2252-4f0a-8ffc-da006ce1752c',
           uid: localStorage.getItem('uid'),
-          softDelete: false,
-          indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
-          indexWarungSoftDelete: `${false}_${data.warung}`,
         };
 
         MakananService
@@ -357,9 +382,6 @@ app
           harga: data.harga,
           picture: snapshot.downloadURL,
           uid: localStorage.getItem('uid'),
-          softDelete: false,
-          indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
-          indexWarungSoftDelete: `${false}_${data.warung}`,
         };
         MakananService
           .pushData(push)
@@ -527,3 +549,4 @@ app
       );
     }
   }]);
+  

@@ -12,12 +12,12 @@ app
 
   // fetch data
   WarungService
-    .getWarungAll()
+    .getWarungVerified()
     .then(data => {
       $scope.state.data = data;
       $scope.state.loading = false;
     })
-    .catch(err => toast(err));
+    .catch(err => toast(err.message));
 
   WarungService
     .getKategori()
@@ -25,7 +25,7 @@ app
       $scope.state.kategori = data;
       $scope.state.loading = false;
     })
-    .catch(err => toast(err));
+    .catch(err => toast(err.message));
 
   // fungsi action
   $scope.action = {
@@ -93,8 +93,8 @@ app
         nama: data.nama,
         picture: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2FNoImage.png?alt=media&token=86dca0ea-2252-4f0a-8ffc-da006ce1752c',
         uid: localStorage.getItem('uid'),
-        softDelete: false,
-        indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
+        verifikasi: true,
+        indexUidVerifikasi: `${true}_${localStorage.getItem('uid')}`,
       };
 
       WarungService
@@ -130,8 +130,8 @@ app
         nama: data.nama,
         picture: snapshot.downloadURL,
         uid: localStorage.getItem('uid'),
-        softDelete: false,
-        indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
+        verifikasi: true,
+        indexUidVerifikasi: `${true}_${localStorage.getItem('uid')}`,
       };
       WarungService
         .pushDataWarung(push)
@@ -212,6 +212,54 @@ app
     });
     return;
   }
+
+  // fungsi pembantu
+  function toast(text) {
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(text)
+        .position('top right')
+        .hideDelay(4000)
+    );
+  }
+}])
+
+.controller('SuperAdmin_VerifikasiWarungCtrl', ['$scope', 'WarungService', '$mdDialog', '$mdToast', function ($scope, WarungService, $mdDialog, $mdToast) {
+  $scope.state = {
+    title: 'Verifikasi Data Warung',
+    subtitle: 'Tabel data warung belum verifikasi ',
+    data: [],
+    loading: true,
+  };
+
+  // fetch data
+  WarungService
+    .getWarungUnverified()
+    .then(data => {
+      $scope.state.data = data;
+      $scope.state.loading = false;
+    })
+    .catch(err => toast(err.message));
+
+  $scope.verifikasi = function (data, index, ev) {
+    const confirm = $mdDialog.confirm()
+      .title('Verifikasi data warung ?')
+      .textContent(`Data dengan nama warung : ${data.nama}`)
+      .ariaLabel('Verification Confirmation')
+      .targetEvent(ev)
+      .ok('Ya')
+      .cancel('Tidak');
+
+    $mdDialog.show(confirm)
+      .then(() => {
+        return WarungService.verifikasiDataWarung(data.$id, data.uid)
+        .then(() => toast(`Data warung : ${data.nama} berhasil di verifikasi`))
+        .catch(() => toast('Terjadi kesalahan saat verifikasi data.'))
+      })
+      .catch(() => {
+        $scope.state.data[index].verifikasi = !$scope.state.data[index].verifikasi;
+      });
+  };
 
   // fungsi pembantu
   function toast(text) {
@@ -312,9 +360,6 @@ app
         harga: data.harga,
         picture: 'https://firebasestorage.googleapis.com/v0/b/ajengan-bali.appspot.com/o/assets%2FNoImage.png?alt=media&token=86dca0ea-2252-4f0a-8ffc-da006ce1752c',
         uid: localStorage.getItem('uid'),
-        softDelete: false,
-        indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
-        indexWarungSoftDelete: `${false}_${data.warung}`,
       };
 
       MakananService
@@ -347,9 +392,6 @@ app
         harga: data.harga,
         picture: snapshot.downloadURL,
         uid: localStorage.getItem('uid'),
-        softDelete: false,
-        indexUidSoftDelete: `${false}_${localStorage.getItem('uid')}`,
-        indexWarungSoftDelete: `${false}_${data.warung}`,
       };
       MakananService
         .pushData(push)

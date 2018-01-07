@@ -8,6 +8,7 @@
     <table md-table>
       <thead md-head>
         <tr md-row>
+          <th md-column colspan="2">Action</th>
           <th md-column md-numeric>No</th>
           <th md-column>Nama</th>
           <th md-column>Kategori</th>
@@ -18,21 +19,10 @@
           <th md-column>Telepon</th>
           <th md-column>Deskripsi</th>
           <th md-column>Gambar</th>
-          <th md-column colspan="2">Action</th>
         </tr>
       </thead>
       <tbody md-body>
         <tr md-row ng-repeat="row in state.data | filter: searchText">
-          <td md-cell>{{$index + 1}}</td>
-          <td md-cell>{{row.nama}}</td>
-          <td md-cell>{{row.kategori}}</td>
-          <td md-cell>{{row.daerah}}</td>
-          <td md-cell>{{row.lat}}</td>
-          <td md-cell>{{row.lng}}</td>
-          <td md-cell>{{row.alamat}}</td>
-          <td md-cell>{{row.telepon}}</td>
-          <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
-          <td md-cell><img src="{{row.picture}}" width="50" /></td>
           <td md-cell>
             <md-button class="md-icon-button" ng-click="edit(row)" aria-label="edit">
               <md-icon ng-style="{color: '#1565C0'}">edit</md-icon>
@@ -43,6 +33,16 @@
               <md-icon ng-style="{color: '#C62828'}">delete</md-icon>
             </md-button>
           </td>
+          <td md-cell>{{$index + 1}}</td>
+          <td md-cell>{{row.nama}}</td>
+          <td md-cell>{{row.kategori}}</td>
+          <td md-cell>{{row.daerah}}</td>
+          <td md-cell>{{row.lat}}</td>
+          <td md-cell>{{row.lng}}</td>
+          <td md-cell>{{row.alamat}}</td>
+          <td md-cell>{{row.telepon}}</td>
+          <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
+          <td md-cell><img src="{{row.picture}}" width="50" /></td>
         </tr>
       </tbody>
     </table>

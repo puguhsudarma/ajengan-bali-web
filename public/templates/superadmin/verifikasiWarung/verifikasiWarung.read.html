@@ -1,0 +1,44 @@
+<md-progress-linear ng-if="state.loading === true" md-mode="indeterminate"></md-progress-linear>
+<md-input-container class="md-block" flex-gt-sm>
+  <label>Search</label>
+  <input ng-model="searchText">
+</md-input-container>
+<md-table-container>
+  <table md-table>
+    <thead md-head>
+      <tr md-row>
+        <th md-column>Verifikasi</th>
+        <th md-column md-numeric>No</th>
+        <th md-column>Nama</th>
+        <th md-column>Kategori</th>
+        <th md-column>Daerah</th>
+        <th md-column md-numeric>Latitude</th>
+        <th md-column md-numeric>Longitude</th>
+        <th md-column>Alamat</th>
+        <th md-column>Telepon</th>
+        <th md-column>Deskripsi</th>
+        <th md-column>Gambar</th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row ng-repeat="row in state.data | filter: searchText">
+        <td md-cell>
+          <md-switch ng-model="row.verifikasi" ng-change="verifikasi(row, $index, $event)" aria-label="verifikasi">
+          </md-switch>
+        </td>
+        <td md-cell>{{$index + 1}}</td>
+        <td md-cell>{{row.nama}}</td>
+        <td md-cell>{{row.kategori}}</td>
+        <td md-cell>{{row.daerah}}</td>
+        <td md-cell>{{row.lat}}</td>
+        <td md-cell>{{row.lng}}</td>
+        <td md-cell>{{row.alamat}}</td>
+        <td md-cell>{{row.telepon}}</td>
+        <td md-cell>{{row.deskripsi | limitTo: 30}}...</td>
+        <td md-cell>
+          <img src="{{row.picture}}" width="50" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>

@@ -108,6 +108,13 @@ app
         resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
         cache: true,
       })
+      .state('superadmin-verifikasi-warung', {
+        url: '/super-admin-verifikasi-warung',
+        templateUrl: 'templates/superadmin/verifikasiWarung/verifikasiWarung.html',
+        controller: 'SuperAdmin_VerifikasiWarungCtrl as warung',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authSuperAdmin] },
+        cache: true,
+      })
       .state('superadmin-makanan', {
         url: '/super-admin-makanan',
         templateUrl: 'templates/superadmin/makanan/makanan.html',
@@ -135,6 +142,13 @@ app
         url: '/admin-warung-warung',
         templateUrl: 'templates/adminwarung/warung/warung.html',
         controller: 'AdminWarung_WarungCtrl as warung',
+        resolve: { currentAuth: ['$firebaseAuth', '$state', authAdminWarung] },
+        cache: true,
+      })
+      .state('adminwarung-verifikasi-warung', {
+        url: '/admin-warung-verifikasi-warung',
+        templateUrl: 'templates/adminwarung/verifikasiWarung/verifikasiWarung.html',
+        controller: 'AdminWarung_VerifikasiWarungCtrl as warung',
         resolve: { currentAuth: ['$firebaseAuth', '$state', authAdminWarung] },
         cache: true,
       })

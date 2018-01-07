@@ -54,3 +54,4 @@ fastlane/screenshots
 
 firebase-debug.log
 package-lock.json
+yarn.lock
